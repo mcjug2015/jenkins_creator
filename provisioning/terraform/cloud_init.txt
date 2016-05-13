@@ -1,0 +1,8 @@
+#cloud-config
+
+packages:
+ - git
+
+runcmd:
+ - [git, clone, "https://github.com/mcjug2015/jenkins_creator.git", "/tmp/jenkins_creator/"]
+ - [sh, "/tmp/jenkins_creator/provisioning/misc/do_salt.sh"]
