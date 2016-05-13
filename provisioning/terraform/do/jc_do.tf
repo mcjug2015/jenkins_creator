@@ -19,7 +19,7 @@ resource "digitalocean_droplet" "jc_web" {
     image = "centos-7-2-x64"
     name = "jcweb"
     region = "nyc3"
-    size = "2gb"
+    size = "1gb"
     user_data = "${file("./../cloud_init.txt")}"
     ssh_keys = ["${digitalocean_ssh_key.vsemenov_mac_key.id}"]
 }
