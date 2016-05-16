@@ -7,3 +7,4 @@
 /usr/bin/rpm -Uvh /tmp/epel-release.rpm
 /usr/bin/yum install -y salt-minion
 /usr/bin/cp /tmp/jenkins_creator/provisioning/saltstack/minion /etc/salt/minion
+/usr/bin/salt-call --local state.apply --config-dir=/tmp/jenkins_creator/provisioning/saltstack/
