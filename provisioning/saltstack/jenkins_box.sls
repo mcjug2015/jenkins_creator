@@ -2,15 +2,13 @@ do_cert:
   module.run:
     - name: tls.create_self_signed_cert
     - require:
-      - pkg: openssl
-    - kwargs: {
-          ST: "MD",
-          L: "Rockville",
-          O: "MCJUG",
-          cacert_path: "/etc/nginx",
-          tls_dir: "ssl"
-      }
-    - reload_modules: true
+      - pip: pyOpenSSL
+    - CN: "localhost"
+    - ST: "MD"
+    - L: "Rockville"
+    - O: "MCJUG"
+    - cacert_path: "/etc/nginx"
+    - tls_dir: "ssl"
 
 jenkins.repo:
   pkgrepo.managed:
@@ -23,27 +21,28 @@ jenkins:
   pkg:
     - installed
     - require:
-      - pkg: java-1.8.0-openjdk.x86_64
+      - pkg: misc-packages
       - pkgrepo: jenkins.repo
   service.running:
     - enable: True
 
-nano:
-  pkg:
-    - installed
+misc-packages:
+  pkg.installed:
+    - pkgs:
+      - nano
+      - wget
+      - java-1.8.0-openjdk.x86_64
+      - nginx
 
-wget:
-  pkg:
-    - installed
+openssl-packages:
+  pkg.installed:
+    - pkgs:
+      - openssl-devel
+      - python-devel
+      - libffi-devel
+      - python-pip
 
-java-1.8.0-openjdk.x86_64:
-  pkg:
-    - installed
-
-nginx:
-  pkg:
-    - installed
-
-openssl:
-  pkg:
-    - installed
+pyOpenSSL:
+  pip.installed:
+    - require:
+      - pkg: openssl-packages
