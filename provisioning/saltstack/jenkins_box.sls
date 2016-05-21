@@ -1,11 +1,6 @@
-disabled:
-    selinux.mode
-
 all-packages:
   pkg.installed:
     - pkgs:
-      - policycoreutils
-      - policycoreutils-python
       - nano
       - wget
       - java-1.8.0-openjdk.x86_64
@@ -14,6 +9,15 @@ all-packages:
       - python-devel
       - libffi-devel
       - python-pip
+      - setools-console
+
+/sbin/setenforce 0:
+  cmd.run
+
+/etc/sysconfig/selinux:
+  file.managed:
+    - source:
+      - salt://jenkins_creator/provisioning/misc/selinux_config
 
 pyOpenSSL:
   pip.installed:
@@ -61,4 +65,3 @@ nginx:
     - require:
       - pkg: all-packages
       - file: /etc/nginx/conf.d/jenkins_nginx.conf
-      - selinux: disabled
