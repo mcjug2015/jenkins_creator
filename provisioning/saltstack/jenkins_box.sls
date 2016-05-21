@@ -1,3 +1,6 @@
+disabled:
+    selinux.mode
+
 all-packages:
   pkg.installed:
     - pkgs:
@@ -56,3 +59,4 @@ nginx:
     - require:
       - pkg: all-packages
       - file: /etc/nginx/conf.d/jenkins_nginx.conf
+      - selinux: disabled
