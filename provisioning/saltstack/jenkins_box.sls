@@ -17,7 +17,7 @@ all-packages:
 /etc/sysconfig/selinux:
   file.managed:
     - source:
-      - salt://jenkins_creator/provisioning/misc/selinux_config
+      - salt://jenkins_creator_copy/provisioning/misc/selinux_config
 
 pyOpenSSL:
   pip.installed:
@@ -55,7 +55,7 @@ do_cert:
 /etc/nginx/conf.d/jenkins_nginx.conf:
   file.managed:
     - source:
-      - salt://jenkins_creator/provisioning/misc/jenkins_nginx.conf
+      - salt://jenkins_creator_copy/provisioning/misc/jenkins_nginx.conf
     - require:
       - pkg: all-packages
 
