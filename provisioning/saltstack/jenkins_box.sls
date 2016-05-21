@@ -1,14 +1,19 @@
-do_cert:
-  module.run:
-    - name: tls.create_self_signed_cert
+all-packages:
+  pkg.installed:
+    - pkgs:
+      - nano
+      - wget
+      - java-1.8.0-openjdk.x86_64
+      - nginx
+      - openssl-devel
+      - python-devel
+      - libffi-devel
+      - python-pip
+
+pyOpenSSL:
+  pip.installed:
     - require:
-      - pip: pyOpenSSL
-    - CN: "localhost"
-    - ST: "MD"
-    - L: "Rockville"
-    - O: "MCJUG"
-    - cacert_path: "/etc/nginx"
-    - tls_dir: "ssl"
+      - pkg: all-packages
 
 jenkins.repo:
   pkgrepo.managed:
@@ -21,28 +26,30 @@ jenkins:
   pkg:
     - installed
     - require:
-      - pkg: misc-packages
+      - pkg: all-packages
       - pkgrepo: jenkins.repo
   service.running:
     - enable: True
 
-misc-packages:
-  pkg.installed:
-    - pkgs:
-      - nano
-      - wget
-      - java-1.8.0-openjdk.x86_64
-      - nginx
-
-openssl-packages:
-  pkg.installed:
-    - pkgs:
-      - openssl-devel
-      - python-devel
-      - libffi-devel
-      - python-pip
-
-pyOpenSSL:
-  pip.installed:
+do_cert:
+  module.run:
+    - name: tls.create_self_signed_cert
     - require:
-      - pkg: openssl-packages
+      - pip: pyOpenSSL
+    - CN: "localhost"
+    - ST: "MD"
+    - L: "Rockville"
+    - O: "MCJUG"
+    - cacert_path: "/etc/nginx"
+    - tls_dir: "ssl"
+
+/etc/nginx/sites-enabled/jenkins_nginx.conf:
+  file.managed:
+    - source:
+      - salt://jenkins_creator/provisioning/misc/jenkins_nginx.conf
+    - require:
+      - pkg: all-packages
+
+/etc/nginx/sites-available/jenkins_nginx.conf:
+  file.symlink:
+    - target: /etc/nginx/sites-enabled/jenkins_nginx.conf
