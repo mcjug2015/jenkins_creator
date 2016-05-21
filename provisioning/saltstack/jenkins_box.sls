@@ -49,3 +49,10 @@ do_cert:
       - salt://jenkins_creator/provisioning/misc/jenkins_nginx.conf
     - require:
       - pkg: all-packages
+
+nginx:
+  service.running:
+    - enable: True
+    - require:
+      - pkg: all-packages
+      - file: /etc/nginx/conf.d/jenkins_nginx.conf
