@@ -4,6 +4,8 @@ disabled:
 all-packages:
   pkg.installed:
     - pkgs:
+      - policycoreutils
+      - policycoreutils-python
       - nano
       - wget
       - java-1.8.0-openjdk.x86_64
