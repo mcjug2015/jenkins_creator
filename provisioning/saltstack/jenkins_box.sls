@@ -43,13 +43,9 @@ do_cert:
     - cacert_path: "/etc/nginx"
     - tls_dir: "ssl"
 
-/etc/nginx/sites-enabled/jenkins_nginx.conf:
+/etc/nginx/conf.d/jenkins_nginx.conf:
   file.managed:
     - source:
       - salt://jenkins_creator/provisioning/misc/jenkins_nginx.conf
     - require:
       - pkg: all-packages
-
-/etc/nginx/sites-available/jenkins_nginx.conf:
-  file.symlink:
-    - target: /etc/nginx/sites-enabled/jenkins_nginx.conf
