@@ -65,3 +65,21 @@ nginx:
     - require:
       - pkg: all-packages
       - file: /etc/nginx/conf.d/jenkins_nginx.conf
+
+{% if not salt['file.file_exists' ]('/etc/jenkins_stuff/.ssh/id_rsa') %}
+/etc/jenkins_stuff/.ssh/:
+  file.directory:
+    - user: jenkins
+    - group: jenkins
+    - mode: 755
+    - makedirs: True
+    - require:
+      - service: jenkins
+
+generate_ssh_key_jenkins:
+  cmd.run:
+    - name: ssh-keygen -q -N '' -f /etc/jenkins_stuff/.ssh/id_rsa
+    - user: jenkins
+    - require:
+      - file: /etc/jenkins_stuff/.ssh/
+{% endif %}
