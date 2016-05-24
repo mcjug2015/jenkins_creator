@@ -32,6 +32,9 @@ jenkins.repo:
     - gpgcheck: 1
 
 jenkins_user:
+  group.present:
+    - name: jenkins
+    - gid: 4001
   user.present:
     - name: jenkins
     - fullname: Jenkins User
@@ -39,6 +42,8 @@ jenkins_user:
     - home: /home/jenkins
     - uid: 4001
     - gid: 4001
+    - require:
+      - group: jenkins_user
 
 jenkins:
   pkg:
