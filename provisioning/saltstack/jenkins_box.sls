@@ -31,12 +31,22 @@ jenkins.repo:
     - gpgkey: https://jenkins-ci.org/redhat/jenkins-ci.org.key
     - gpgcheck: 1
 
+jenkins_user:
+  user.present:
+    - name: jenkins
+    - fullname: Jenkins User
+    - shell: /bin/bash
+    - home: /home/jenkins
+    - uid: 4001
+    - gid: 4001
+
 jenkins:
   pkg:
     - installed
     - require:
       - pkg: all-packages
       - pkgrepo: jenkins.repo
+      - user: jenkins_user
   service.running:
     - enable: True
 
@@ -66,8 +76,8 @@ nginx:
       - pkg: all-packages
       - file: /etc/nginx/conf.d/jenkins_nginx.conf
 
-{% if not salt['file.file_exists' ]('/etc/jenkins_stuff/.ssh/id_rsa') %}
-/etc/jenkins_stuff/.ssh/:
+{% if not salt['file.file_exists' ]('/home/jenkins/.ssh/id_rsa') %}
+/home/jenkins/.ssh/:
   file.directory:
     - user: jenkins
     - group: jenkins
@@ -78,8 +88,8 @@ nginx:
 
 generate_ssh_key_jenkins:
   cmd.run:
-    - name: ssh-keygen -q -N '' -f /etc/jenkins_stuff/.ssh/id_rsa
+    - name: ssh-keygen -q -N '' -f /home/jenkins/.ssh/id_rsa
     - user: jenkins
     - require:
-      - file: /etc/jenkins_stuff/.ssh/
+      - file: /home/jenkins/.ssh/
 {% endif %}
