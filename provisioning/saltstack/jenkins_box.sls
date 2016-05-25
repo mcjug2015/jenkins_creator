@@ -91,7 +91,7 @@ nginx:
     - require:
       - service: jenkins
 
-/home/jenkins/.ssh/known_hosts
+/home/jenkins/.ssh/known_hosts:
   file.managed:
     - source:
       - salt://jenkins_creator_copy/provisioning/misc/known_hosts
