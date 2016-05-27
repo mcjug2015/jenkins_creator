@@ -10,6 +10,7 @@ all-packages:
       - libffi-devel
       - python-pip
       - setools-console
+      - gcc
 
 /sbin/setenforce 0:
   cmd.run
