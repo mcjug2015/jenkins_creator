@@ -92,13 +92,6 @@ nginx:
     - require:
       - service: jenkins
 
-/home/jenkins/.ssh/known_hosts:
-  file.managed:
-    - source:
-      - salt://jenkins_creator_copy/provisioning/misc/known_hosts
-    - require:
-      - file: /home/jenkins/.ssh/
-
 generate_ssh_key_jenkins:
   cmd.run:
     - name: ssh-keygen -q -N '' -f /home/jenkins/.ssh/id_rsa
