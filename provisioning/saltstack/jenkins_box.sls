@@ -24,7 +24,6 @@ py_packages:
   pip.installed:
     - pkgs:
       - pyOpenSSL
-      - pygit2
     - require:
       - pkg: all-packages
 
