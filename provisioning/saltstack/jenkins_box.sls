@@ -21,8 +21,11 @@ all-packages:
     - source:
       - salt://jenkins_creator_copy/provisioning/misc/selinux_config
 
-pyOpenSSL:
+py_packages:
   pip.installed:
+    - pkgs:
+      - pyOpenSSL
+      - pygit2
     - require:
       - pkg: all-packages
 
@@ -63,9 +66,6 @@ jenkins_config_repo:
     - value: mcjug2015
     - user: jenkins
     - global: True
-    - require:
-      - user: jenkins_user
-  git.config_set:
     - name: user.email
     - value: victor.semenov@gmail.com
     - user: jenkins
@@ -77,7 +77,7 @@ do_cert:
   module.run:
     - name: tls.create_self_signed_cert
     - require:
-      - pip: pyOpenSSL
+      - pip: py_packages
     - CN: "localhost"
     - ST: "MD"
     - L: "Rockville"
