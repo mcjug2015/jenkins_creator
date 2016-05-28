@@ -11,8 +11,6 @@ all-packages:
       - python-pip
       - setools-console
       - gcc
-      - git
-      - libgit2-devel
 
 /sbin/setenforce 0:
   cmd.run
@@ -62,15 +60,11 @@ jenkins:
     - enable: True
 
 jenkins_config_repo:
-  git.config_set:
-    - name: user.name
-    - value: mcjug2015
+  cmd.run:
+    - names:
+      - git config --global user.name "The Victor"
+      - git config --global user.email "the.victor@gmail.com"
     - user: jenkins
-    - global: True
-    - name: user.email
-    - value: victor.semenov@gmail.com
-    - user: jenkins
-    - global: True
     - require:
       - user: jenkins_user
 
