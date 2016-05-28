@@ -12,6 +12,7 @@ all-packages:
       - setools-console
       - gcc
       - git
+      - libgit2
 
 /sbin/setenforce 0:
   cmd.run
