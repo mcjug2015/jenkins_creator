@@ -11,6 +11,7 @@ all-packages:
       - python-pip
       - setools-console
       - gcc
+      - git
 
 /sbin/setenforce 0:
   cmd.run
@@ -55,6 +56,22 @@ jenkins:
       - user: jenkins_user
   service.running:
     - enable: True
+
+jenkins_config_repo:
+  git.config_set:
+    - name: user.name
+    - value: mcjug2015
+    - user: jenkins
+    - global: True
+    - require:
+      - user: jenkins_user
+  git.config_set:
+    - name: user.email
+    - value: victor.semenov@gmail.com
+    - user: jenkins
+    - global: True
+    - require:
+      - user: jenkins_user
 
 do_cert:
   module.run:
