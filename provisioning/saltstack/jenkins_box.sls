@@ -20,6 +20,15 @@ all-packages:
     - source:
       - salt://jenkins_creator_copy/provisioning/misc/selinux_config
 
+/etc/ssh/sshd_config
+  file.managed:
+    - source:
+      - salt://jenkins_creator_copy/provisioning/misc/sshd_config
+  cmd.run:
+    - name: systemctl restart sshd
+    - require:
+      - file: /etc/ssh/sshd_config
+
 py_packages:
   pip.installed:
     - pkgs:
@@ -54,6 +63,8 @@ jenkins_user:
     - mode: 644
     - source:
       - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
+    - require:
+      - user: jenkins_user
 
 jenkins_sudo_user:
   group.present:
@@ -75,6 +86,8 @@ jenkins_sudo_user:
     - mode: 644
     - source:
       - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
+    - require:
+      - user: jenkins_sudo_user
 
 jenkins:
   pkg:
