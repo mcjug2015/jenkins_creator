@@ -56,6 +56,14 @@ jenkins_user:
     - gid: 4001
     - require:
       - group: jenkins_user
+  file.directory:
+    - name: /home/jenkins/.ssh/
+    - user: jenkins
+    - group: jenkins
+    - mode: 755
+    - makedirs: True
+    - require:
+      - user: jenkins_user
   file.managed:
     - name: /home/jenkins/.ssh/authorized_keys
     - user: jenkins
@@ -64,7 +72,7 @@ jenkins_user:
     - source:
       - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
     - require:
-      - user: jenkins_user
+      - file: /home/jenkins/.ssh/
 
 jenkins_sudo_user:
   group.present:
@@ -79,6 +87,14 @@ jenkins_sudo_user:
     - gid: 4002
     - require:
       - group: jenkins_sudo_user
+  file.directory:
+    - name: /home/jenkins_sudo/.ssh/
+    - user: jenkins_sudo
+    - group: jenkins_sudo
+    - mode: 755
+    - makedirs: True
+    - require:
+      - user: jenkins_sudo_user
   file.managed:
     - name: /home/jenkins_sudo/.ssh/authorized_keys
     - user: jenkins_sudo
@@ -87,7 +103,7 @@ jenkins_sudo_user:
     - source:
       - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
     - require:
-      - user: jenkins_sudo_user
+      - file: /home/jenkins_sudo/.ssh/
 
 jenkins:
   pkg:
@@ -135,15 +151,6 @@ nginx:
       - file: /etc/nginx/conf.d/jenkins_nginx.conf
 
 {% if not salt['file.file_exists' ]('/home/jenkins/.ssh/id_rsa') %}
-/home/jenkins/.ssh/:
-  file.directory:
-    - user: jenkins
-    - group: jenkins
-    - mode: 755
-    - makedirs: True
-    - require:
-      - service: jenkins
-
 generate_ssh_key_jenkins:
   cmd.run:
     - name: ssh-keygen -q -N '' -f /home/jenkins/.ssh/id_rsa
