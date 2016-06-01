@@ -47,6 +47,34 @@ jenkins_user:
     - gid: 4001
     - require:
       - group: jenkins_user
+  file.managed:
+    - name: /home/jenkins/.ssh/authorized_keys
+    - user: jenkins
+    - group: jenkins
+    - mode: 644
+    - source:
+      - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
+
+jenkins_sudo_user:
+  group.present:
+    - name: jenkins_sudo
+    - gid: 4002
+  user.present:
+    - name: jenkins_sudo
+    - fullname: Jenkins Sudo User
+    - shell: /bin/bash
+    - home: /home/jenkins_sudo
+    - uid: 4002
+    - gid: 4002
+    - require:
+      - group: jenkins_sudo_user
+  file.managed:
+    - name: /home/jenkins_sudo/.ssh/authorized_keys
+    - user: jenkins_sudo
+    - group: jenkins_sudo
+    - mode: 644
+    - source:
+      - salt://jenkins_creator_copy/provisioning/terraform/mac_key.pub
 
 jenkins:
   pkg:
