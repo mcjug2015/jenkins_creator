@@ -56,16 +56,18 @@ jenkins_user:
     - gid: 4001
     - require:
       - group: jenkins_user
+
+/home/jenkins/.ssh/:
   file.directory:
-    - name: /home/jenkins/.ssh/
     - user: jenkins
     - group: jenkins
     - mode: 755
     - makedirs: True
     - require:
       - user: jenkins_user
+
+/home/jenkins/.ssh/authorized_keys:
   file.managed:
-    - name: /home/jenkins/.ssh/authorized_keys
     - user: jenkins
     - group: jenkins
     - mode: 644
@@ -87,16 +89,19 @@ jenkins_sudo_user:
     - gid: 4002
     - require:
       - group: jenkins_sudo_user
+
+/home/jenkins_sudo/.ssh/
   file.directory:
-    - name: /home/jenkins_sudo/.ssh/
     - user: jenkins_sudo
     - group: jenkins_sudo
     - mode: 755
     - makedirs: True
     - require:
       - user: jenkins_sudo_user
+
+/home/jenkins_sudo/.ssh/authorized_keys
   file.managed:
-    - name: /home/jenkins_sudo/.ssh/authorized_keys
+    - name: 
     - user: jenkins_sudo
     - group: jenkins_sudo
     - mode: 644
