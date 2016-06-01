@@ -90,7 +90,7 @@ jenkins_sudo_user:
     - require:
       - group: jenkins_sudo_user
 
-/home/jenkins_sudo/.ssh/
+/home/jenkins_sudo/.ssh/:
   file.directory:
     - user: jenkins_sudo
     - group: jenkins_sudo
@@ -99,7 +99,7 @@ jenkins_sudo_user:
     - require:
       - user: jenkins_sudo_user
 
-/home/jenkins_sudo/.ssh/authorized_keys
+/home/jenkins_sudo/.ssh/authorized_keys:
   file.managed:
     - name: 
     - user: jenkins_sudo
