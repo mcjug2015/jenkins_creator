@@ -20,7 +20,7 @@ all-packages:
     - source:
       - salt://jenkins_creator_copy/provisioning/misc/selinux_config
 
-/etc/ssh/sshd_config
+/etc/ssh/sshd_config:
   file.managed:
     - source:
       - salt://jenkins_creator_copy/provisioning/misc/sshd_config
