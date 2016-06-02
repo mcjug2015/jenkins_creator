@@ -92,6 +92,8 @@ jenkins_sudo_user:
   group.present:
     - name: jenkins_sudo
     - gid: 4002
+    - require:
+      - group: admins_group
   user.present:
     - name: jenkins_sudo
     - fullname: Jenkins Sudo User
@@ -102,7 +104,7 @@ jenkins_sudo_user:
     - groups:
       - admins
     - require:
-      - group: [jenkins_sudo_user, admins_group]
+      - group: jenkins_sudo_user
 
 /home/jenkins_sudo/.ssh/:
   file.directory:
