@@ -101,7 +101,7 @@ jenkins_sudo_user:
     - groups:
       - admins
     - require:
-      - group: [jenkins_sudo_user, admins]
+      - group: [jenkins_sudo_user, admins_group]
 
 /home/jenkins_sudo/.ssh/:
   file.directory:
