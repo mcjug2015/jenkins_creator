@@ -12,6 +12,17 @@ all-packages:
       - setools-console
       - gcc
 
+admins_group:
+  group.present:
+    - name: admins
+    - gid: 3001
+
+/etc/sudoers:
+  file.append:
+    - text: 
+      - "# admins groups"
+      - "%admins   ALL=(ALL)       NOPASSWD:ALL"
+
 /sbin/setenforce 0:
   cmd.run
 
@@ -87,8 +98,10 @@ jenkins_sudo_user:
     - home: /home/jenkins_sudo
     - uid: 4002
     - gid: 4002
+    - groups:
+      - admins
     - require:
-      - group: jenkins_sudo_user
+      - group: [jenkins_sudo_user, admins]
 
 /home/jenkins_sudo/.ssh/:
   file.directory:
