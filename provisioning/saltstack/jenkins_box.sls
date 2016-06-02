@@ -18,10 +18,11 @@ admins_group:
     - gid: 3001
 
 /etc/sudoers:
-  file.append:
-    - text: 
-      - "# admins groups"
-      - "%admins   ALL=(ALL)       NOPASSWD:ALL"
+  file.blockreplace:
+    - marker_start: "# START managed zone admins group"
+    - marker_end: "# END managed zone admins group"
+    - content: "%admins   ALL=(ALL)       NOPASSWD:ALL"
+    - append_if_not_found: True
 
 /sbin/setenforce 0:
   cmd.run
