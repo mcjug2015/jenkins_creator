@@ -58,6 +58,7 @@ knock.repo:
 
 disable_22:
   iptables.insert:
+    - position: 1
     - table: filter
     - chain: INPUT
     - dport: 22
