@@ -11,6 +11,7 @@ all-packages:
       - python-pip
       - setools-console
       - gcc
+      - libcap-devel
 
 admins_group:
   group.present:
@@ -47,6 +48,36 @@ py_packages:
       - pyOpenSSL
     - require:
       - pkg: all-packages
+
+knock.repo:
+  pkgrepo.managed:
+    - humanname: knock.repo
+    - baseurl: http://li.nux.ro/download/nux/misc/el7/
+    - gpgkey: http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+    - gpgcheck: 1
+
+disable_22:
+  iptables.insert:
+    - chain: INPUT
+    - dport: 22
+    - proto: tcp
+    - jump: DROP
+    - save: True
+
+/etc/knockd.conf:
+  file.managed:
+    - source:
+      - salt://jenkins_creator_copy/provisioning/misc/knockd.conf
+
+knock-server:
+  pkg:
+    - installed
+    - require:
+      - iptables: disable_22
+      - pkgrepo: knock.repo
+      - file: /etc/knockd.conf
+  service.running:
+    - enable: True
 
 jenkins.repo:
   pkgrepo.managed:
