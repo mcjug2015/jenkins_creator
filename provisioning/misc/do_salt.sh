@@ -8,6 +8,7 @@
 /usr/bin/yum install -y salt-minion
 
 #let salt have access to all the projects files
+/usr/bin/rm -rf /tmp/jenkins_creator_copy/
 /usr/bin/cp -R /tmp/jenkins_creator/ /tmp/jenkins_creator_copy/
 /usr/bin/rm -rf /tmp/jenkins_creator/provisioning/saltstack/jenkins_creator_copy/
 /usr/bin/cp -R /tmp/jenkins_creator_copy/ /tmp/jenkins_creator/provisioning/saltstack/
