@@ -69,7 +69,7 @@ disable_22:
 reload_firewalld:
   cmd.run:
     - name: firewall-cmd --reload
-  - requre:
+    - requre:
       - cmd: disable_22
 
 /etc/knockd.conf:
@@ -81,7 +81,7 @@ knock-server:
   pkg:
     - installed
     - require:
-      - cmd: disable_22
+      - cmd: reload_firewalld
       - pkgrepo: knock.repo
       - file: /etc/knockd.conf
   service.running:
