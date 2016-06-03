@@ -52,7 +52,7 @@ py_packages:
 knock.repo:
   pkgrepo.managed:
     - humanname: knock.repo
-    - baseurl: http://li.nux.ro/download/nux/misc/el7/
+    - baseurl: http://li.nux.ro/download/nux/misc/
     - gpgkey: http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
     - gpgcheck: 1
 
