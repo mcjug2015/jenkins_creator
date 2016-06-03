@@ -56,15 +56,21 @@ knock.repo:
     - gpgkey: http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
     - gpgcheck: 1
 
+firewalld:
+  service.running:
+    - enable: True
+
 disable_22:
-  iptables.insert:
-    - position: 1
-    - table: filter
-    - chain: INPUT
-    - dport: 22
-    - proto: tcp
-    - jump: DROP
-    - save: True
+  cmd.run:
+    - name: firewall-cmd --zone=public --remove-port=22/tcp --permanent
+    - requre:
+      - service: firewalld
+
+reload_firewalld:
+  cmd.run:
+    - name: firewall-cmd --reload
+  - requre:
+      - cmd: disable_22
 
 /etc/knockd.conf:
   file.managed:
@@ -75,7 +81,7 @@ knock-server:
   pkg:
     - installed
     - require:
-      - iptables: disable_22
+      - cmd: disable_22
       - pkgrepo: knock.repo
       - file: /etc/knockd.conf
   service.running:
