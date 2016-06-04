@@ -61,13 +61,12 @@ firewalld:
   service.running:
     - enable: True
 
-#firewall-cmd --zone=public --remove-service=ssh --permanent
-
 disable_22:
   cmd.run:
     - name: |
         firewall-cmd --zone=public --add-service=http --permanent
         firewall-cmd --zone=public --add-service=https --permanent
+        firewall-cmd --zone=public --remove-service=ssh --permanent
     - requre:
       - service: firewalld
 
