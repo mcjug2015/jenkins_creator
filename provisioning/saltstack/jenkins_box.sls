@@ -61,9 +61,13 @@ firewalld:
   service.running:
     - enable: True
 
+#firewall-cmd --zone=public --remove-service=ssh --permanent
+
 disable_22:
   cmd.run:
-    - name: firewall-cmd --zone=public --remove-service=ssh --permanent
+    - name: |
+        firewall-cmd --zone=public --add-service=http --permanent
+        firewall-cmd --zone=public --add-service=https --permanent
     - requre:
       - service: firewalld
 
@@ -179,6 +183,8 @@ jenkins:
       - user: jenkins_user
   service.running:
     - enable: True
+    - require: 
+      - pkg: jenkins
 
 jenkins_config_repo:
   cmd.run:
