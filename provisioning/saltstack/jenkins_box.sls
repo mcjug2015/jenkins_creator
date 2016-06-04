@@ -12,6 +12,7 @@ all-packages:
       - setools-console
       - gcc
       - libcap-devel
+      - net-tools
 
 admins_group:
   group.present:
@@ -62,7 +63,7 @@ firewalld:
 
 disable_22:
   cmd.run:
-    - name: firewall-cmd --zone=public --remove-port=22/tcp --permanent
+    - name: firewall-cmd --zone=public --remove-service=ssh --permanent
     - requre:
       - service: firewalld
 
@@ -85,6 +86,7 @@ knock-server:
       - pkgrepo: knock.repo
       - file: /etc/knockd.conf
   service.running:
+    - name: knockd
     - enable: True
 
 jenkins.repo:
