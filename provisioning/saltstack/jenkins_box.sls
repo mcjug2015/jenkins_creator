@@ -88,6 +88,9 @@ knock-server:
   service.running:
     - name: knockd
     - enable: True
+    - require:
+      - pkg: knock-server
+      - service: jenkins
 
 jenkins.repo:
   pkgrepo.managed:
