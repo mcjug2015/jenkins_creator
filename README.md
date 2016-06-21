@@ -14,3 +14,4 @@ If knocking doesn't work, check provisioning/misc/knockd.conf, it may be listeni
 for aws provisioning jobs to work you'll need to do create a java properties file at /home/jenkins/secret/dt_aws/dt_aws.tfvars it will need to contain something like:
 AWS_ACCESS_KEY_ID = ACCESS_KEY
 AWS_SECRET_ACCESS_KEY = SECRET_KEY
+DIGITALOCEAN_TOKEN = DO_TOKEN
